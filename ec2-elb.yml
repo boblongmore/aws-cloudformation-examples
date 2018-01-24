@@ -1,6 +1,26 @@
 ---
 Description: "This is a simple, basic ec2 template."
 
+Parameters:
+  myVPC:
+    Type: String
+    Default: vpc-75f4cb0d
+    Description: "Default VPC ID"
+  myAMI:
+    Type: String
+    Default: ami-acc0f0d6
+    Description: "Web VM AMI"
+
+Mappings:
+  DefaultVPC:
+    SubnetMap:
+      1b: "subnet-f0e1b194"
+      1d: "subnet-1a7f5b51"
+      1c: "subnet-940798bb"
+      1e: "subnet-75016f4a"
+      1a: "subnet-fc42d1a1"
+      1f: "subnet-0623d609"
+
 Resources:
   MyWebSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -18,11 +38,67 @@ Resources:
         FromPort: '22'
         ToPort: '22'
         CidrIp: 0.0.0.0/0
-  MyEC2Instance:
+  MyELBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: ELB-SG
+      GroupDescription: Allow HTTP
+  #     VpcId:
+  #       Ref: myVPC
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 0.0.0.0/0
+
+  MyEC2Instance1:
     Type: "AWS::EC2::Instance"
     Properties:
       InstanceType: t2.micro
-      ImageId: "ami-4ac7eb30"
+      ImageId:
+        Ref: myAMI
       SecurityGroups: [!Ref MyWebSecurityGroup]
       KeyName: us-east-1-keys
     DependsOn: MyWebSecurityGroup
+  MyEC2Instance2:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      InstanceType: t2.micro
+      ImageId:
+        Ref: myAMI
+      SecurityGroups: [!Ref MyWebSecurityGroup]
+      KeyName: us-east-1-keys
+    DependsOn: MyWebSecurityGroup
+
+  MyAppLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Subnets:
+      - Fn::FindInMap: [DefaultVPC, SubnetMap, 1a] 
+      - Fn::FindInMap: [DefaultVPC, SubnetMap, 1b] 
+      SecurityGroups:
+      - Ref: MyELBSecurityGroup
+    DependsOn: [MyEC2Instance1, MyEC2Instance2]
+  MyAppLoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        Type: forward
+      LoadBalancerArn:
+        Ref: MyAppLoadBalancer
+      TargetGroupARN:
+        Ref: MyAppLoadBalancerTarget
+      Port: 80
+      Protocol: HTTP
+  MyAppLoadBalancerTarget:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Port: 80
+      Protocol: HTTP
+      VpcId:
+        Ref: myVPC
+      Targets:
+      - Id:
+          Ref: MyEC2Instance1
+      - Id:
+          Ref: MyEC2Instance2 
