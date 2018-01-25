@@ -1,5 +1,5 @@
 ---
-Description: "This is a simple, basic ec2 template."
+Description: "This template creates two EC2 instances and puts them behind and ELB"
 
 Parameters:
   myAMI:
