@@ -75,7 +75,11 @@ Resources:
     Properties:
       Subnets:
       - Fn::FindInMap: [DefaultVPC, SubnetMap, 1a] 
-      - Fn::FindInMap: [DefaultVPC, SubnetMap, 1b] 
+      - Fn::FindInMap: [DefaultVPC, SubnetMap, 1b]
+      - Fn::FindInMap: [DefaultVPC, SubnetMap, 1c] 
+      - Fn::FindInMap: [DefaultVPC, SubnetMap, 1d] 
+      - Fn::FindInMap: [DefaultVPC, SubnetMap, 1e] 
+      - Fn::FindInMap: [DefaultVPC, SubnetMap, 1f]  
       SecurityGroups: [!GetAtt MyELBSecurityGroup.GroupId]
     DependsOn: [MyEC2Instance1, MyEC2Instance2]
   MyAppLoadBalancerListener:
