@@ -6,7 +6,7 @@
             "Type" : "AWS::EC2::Instance",
             "Properties" : {
                 "InstanceType" : "t2.micro",
-                "ImageId:" : "ami-acc0f0d6"
+                "ImageId" : "ami-acc0f0d6"
             }
         }
     }
