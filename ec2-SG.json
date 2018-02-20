@@ -25,7 +25,7 @@
         "Properties" : {
           "InstanceType" : "t2.micro",
           "ImageId" : "ami-acc0f0d6",
-          "SecurityGroups" : [ "Ref" : "MyWebSecurityGroup" ],
+          "SecurityGroups" : [ {"Ref" : "MyWebSecurityGroup"} ],
           "KeyName" : "us-east-1-keys"
         },
         "DependsOn" : "MyWebSecurityGroup"
