@@ -7,8 +7,6 @@ Resources:
     Properties:
       GroupName: WEB-DMZ
       GroupDescription: Allow HTTP and SSH
-  #    VpcId:
-  #      Ref: myVPC
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: '80'
