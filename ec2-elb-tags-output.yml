@@ -1,5 +1,5 @@
 ---
-Description: "This template creates two EC2 instances and puts them behind and ELB"
+Description: "This template creates two EC2 instances and puts them behind an ELB"
 
 Parameters:
   myAMI:
@@ -15,8 +15,6 @@ Resources:
     Properties:
       GroupName: WEB-DMZ
       GroupDescription: Allow HTTP and SSH
-  #    VpcId:
-  #      Ref: myVPC
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: '80'
@@ -33,8 +31,6 @@ Resources:
     Properties:
       GroupName: ELB-SG
       GroupDescription: Allow HTTP
-  #     VpcId:
-  #       Ref: myVPC
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: '80'
