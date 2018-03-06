@@ -4,13 +4,13 @@ I wanted to create a very basic, very beginner guide to cloudformation. The info
 
 Cloudformation is a way to model an AWS infrastructure in code. This allows for a reasonable way to quickly stand up new environments, ensure state of current environments, or change the state of environments.
 
-Cloudformation uses text to describe the infrastructure. You can use YAML or JSON formats. (All my examples are in YAML, but on the [Github] (https://github.com/boblongmore/aws-cloudformation-examples) repository associated with this post, there are the equivalent JSON examples.) Once we have everything templatized, AWS calls this a stack.
+Cloudformation uses text to describe the infrastructure. You can use YAML or JSON formats. (All my examples are in YAML, but on the [Github](https://github.com/boblongmore/aws-cloudformation-examples) repository associated with this post, there are the equivalent JSON examples.) Once we have everything templatized, AWS calls this a stack.
 
 This first example is about as basic as you can get. I have an AMI already built in AWS. I have a template that creates a t2.micro machine from it. 
 
 The resources section is required for any CF template. For each individual resource listed under this section, I specify the type and then the properties. 
 
-The [AWS CloudFormation template reference] (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-reference.html)  shows all the values you can set for CloudFormation templates properties. In the documentation, each property will list if it is a required field or only optional. Additionally, because you can update the infrastructure, the documentation will list the behavior of that property upon updating. Some properties will be deleted and re-built (replacement). Some properties will simply update (no interruption). 
+The [AWS CloudFormation template reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-reference.html)  shows all the values you can set for CloudFormation templates properties. In the documentation, each property will list if it is a required field or only optional. Additionally, because you can update the infrastructure, the documentation will list the behavior of that property upon updating. Some properties will be deleted and re-built (replacement). Some properties will simply update (no interruption). 
 
 ```
 ---
